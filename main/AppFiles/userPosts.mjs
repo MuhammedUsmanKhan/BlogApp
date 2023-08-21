@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
 import { getFirestore, collection, setDoc, addDoc, orderBy, serverTimestamp, query, onSnapshot, where, doc, getDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-storage.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -21,6 +21,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 
 
@@ -73,7 +74,18 @@ let singleUserPosts = (event) => {
 
                 // Create the author image element
                 const authorImage = document.createElement('img');
-                authorImage.src = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80';
+                getDownloadURL(ref(storage, 'users/' + doc.data().uid + '/profile.jpg'))
+                    .then((url) => {
+                        // `url` is the download URL for 'images/stars.jpg
+                        // Or inserted into an <img> element
+                        // image.className = "h-11 w-12 sm:w-11 rounded-full";
+                        authorImage.src = url;
+                        // .alt = "User Image";
+                    })
+                    .catch((error) => {
+                        // Handle any errors
+                        console.log(error)
+                    });
                 authorImage.alt = 'Author';
                 authorImage.className = 'w-16 h-16 rounded-full';
 
@@ -150,7 +162,7 @@ let singleUserPosts = (event) => {
 
                 container.appendChild(innerDiv);
                 container.appendChild(postContent);
-               //container.appendChild(buttonsDiv);
+                //container.appendChild(buttonsDiv);
 
                 // Append the postDiv to the document (replace "your-container-id" with the actual container ID)
                 blogContainer.appendChild(container);
@@ -173,6 +185,8 @@ logInBut.addEventListener('click', () => {
 const CheckingUser = (user) => {
     if (user) {
 
+        // 
+
         console.log('User is logged in:', user.email);
         //console.log(body)
         // Perform the redirect here, e.g.:
@@ -186,6 +200,21 @@ const CheckingUser = (user) => {
                 // An error happened.
             });
         })
+
+        let userProfImg = document.getElementById('userProfImg')
+        getDownloadURL(ref(storage, 'users/' + user.uid + '/profile.jpg'))
+            .then((url) => {
+                // `url` is the download URL for 'images/stars.jpg
+                // Or inserted into an <img> element
+                // image.className = "h-11 w-12 sm:w-11 rounded-full";
+                userProfImg.src = url;
+                // .alt = "User Image";
+            })
+            .catch((error) => {
+                // Handle any errors
+                console.log(error)
+            });
+
     } else {
 
         logOutBut.classList.add('hidden')
