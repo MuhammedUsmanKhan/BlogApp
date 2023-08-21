@@ -1,0 +1,16 @@
+{
+  "name": "hackathonwebapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx tailwindcss -i input.css -o ./main/output.css --watch",
+    "prod": "npx tailwindcss -i input.css -o ./main/output.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}

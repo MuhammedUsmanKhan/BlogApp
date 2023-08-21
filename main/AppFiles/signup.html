@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT-Auth</title>
+    <script src="https://kit.fontawesome.com/5a0b948d4f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../output.css">
+</head>
+
+<body class="flex flex-col justify-between h-screen  ">
+    <header id="signupHead" class="flex flex-col justify-center items-center w-full ">
+        <div class="flex p-2 w-full justify-center border-b-2 border-black items-center ">
+            <span class="font-bold text-lg">JWT Authentication Sign Up Form</span>
+        </div>
+        <div class="flex justify-around border-b-2 w-full border-black ">
+            <div>
+                <label for="" class="bg-white">Light Mode</label>
+                <button class="w-8" id="lightMode"><i class="fa-solid fa-sun"></i></button>
+            </div>
+            <div>
+                <label for="" class="bg-white">Dark Mode</label>
+                <button class="w-8" id="darkMode"><i class="fa-regular fa-moon"></i></button>
+            </div>
+        </div>
+    </header>
+    <main class="p-1 ">
+        <div class="flex justify-center">
+            <div class="border-2 border-black space-y-3 p-2 sm:w-2/4">
+                <div class=" hidden justify-center">
+                    <img class="h-16  w-16 rounded-full"
+                        src="./img/jwt-logo-black-and-white.png"
+                        alt="Pfp not found" id="jwtImg">
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <h1 class="font-semibold text-xl">Hello Guyz !</h1>
+                    <p class="break-words ">This is my JWT Authentication Form
+                        I hope that you may like it give your feedback in Comment
+                        Section below &#128522;</p>
+                </div>
+                <form action="" class="space-y-2" id="submitForm">
+                    <div class="relative flex flex-col items-center">
+                        <input id="firstName" type="text" title="atleast 3 char" pattern=".{3,20}" required
+                            class="w-11/12 p-2 transition-colors peer border-black outline-none border-2 duration-500">
+                        <label for=""
+                            class="absolute peer-valid:text-xs peer-valid:transform peer-valid:-translate-y-6 peer-valid:pl-1 peer-valid:pr-1 peer-focus:text-xs peer-focus:transform peer-focus:-translate-y-6 peer-focus:pl-1 peer-focus:pr-1 bottom-3 left-6 md:left-8 lg:left-9 font-semibold bg-white duration-500 transition-all">First Name</label>
+                    </div>
+                    <div class="relative flex flex-col items-center">
+                        <input id="lastName" type="text" required title="atleast 1 char" pattern=".{1,10}"
+                            class="w-11/12 p-2 transition-colors peer border-black outline-none border-2 duration-500">
+                        <label for=""
+                            class="absolute peer-valid:text-xs peer-valid:transform peer-valid:-translate-y-6 peer-valid:pl-1 peer-valid:pr-1 peer-focus:text-xs peer-focus:transform peer-focus:-translate-y-6 peer-focus:pl-1 peer-focus:pr-1 bottom-3 left-6 md:left-8 lg:left-9 font-semibold bg-white duration-500 transition-all">Last Name</label>
+                    </div>
+                    <div class="relative flex flex-col items-center">
+                        <input id="userEmail" type="email" required
+                            class="w-11/12 p-2 transition-colors peer border-black outline-none border-2 duration-500">
+                        <label for=""
+                            class="absolute peer-valid:text-xs peer-valid:transform peer-valid:-translate-y-6 peer-valid:pl-1 peer-valid:pr-1 peer-focus:text-xs peer-focus:transform peer-focus:-translate-y-6 peer-focus:pl-1 peer-focus:pr-1  bottom-3 left-6 md:left-8 lg:left-9  font-semibold bg-white duration-500 transition-all">Email</label>
+                            <i class="absolute right-10 peer-focus:hidden top-5 fa-lg fa-regular fa-envelope"></i>
+                    </div>
+                    <div class="relative flex flex-col items-center">
+                        <input id="userPassword" type="password" required
+                            class="w-11/12 p-2 transition-colors peer outline-none border-2 border-black duration-500">
+                        <label for=""
+                            class="absolute peer-valid:text-xs peer-valid:transform peer-valid:-translate-y-6 peer-valid:pl-1 peer-valid:pr-1 peer-focus:text-xs peer-focus:transform peer-focus:-translate-y-6 peer-focus:pl-1 peer-focus:pr-1  bottom-3 left-6 md:left-8 lg:left-9  font-semibold bg-white duration-500 transition-all">Password</label>
+                            <span class="absolute right-10 flex justify-center items-center top-5 " id="showPass"><i class="fa-regular fa-lg fa-eye"></i></span>
+                            <span id="hidePass" class="absolute hidden right-10  justify-center items-center top-5"><i  class="fa-regular fa-lg fa-eye-slash"></i></span>
+                    </div>
+                    <div class="flex justify-center">
+                        <button id="signUp"
+                            class="w-11/12 font-semibold hover:text-white  hover:border-black hover:bg-black border-black border-2 p-2"
+                            type="submit">Sign Up</button>
+                    </div>
+                </form>
+                <div class="flex justify-center">
+                    <p>Already have an account !<a href="./signin.html" class="text-black font-bold cursor-pointer"> Sign In </a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="sm:p-1 border-t-2 border-black font-semibold text-center">Copyright &copy MSTECH</footer>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="signup.mjs"></script>
+</body>
+
+</html>

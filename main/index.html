@@ -1,0 +1,94 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/5a0b948d4f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./output.css">
+    <title>Document</title>
+</head>
+
+<body class="">
+    <header class="bg-[#070724] sticky top-0">
+        <nav class="container mx-auto flex justify-between items-center w-[92%] min-w-fit">
+            <!-- Add max-w-screen-xl to limit the nav container width -->
+            <div class="flex z-50 bg-[#070724] justify-center h-16 tracking-[1em] items-center">
+                <h1 class="text-center align-middle text-white font-bold">MSTECH</h1>
+                <img class="h-11 w-12 sm:w-11 hidden md:block rounded-full"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt="Pfp not found" id="userProfImg">
+            </div>
+            <div id="navList"
+                class="flex z-[-1] md:z-0 bg-[#070724] flex-col  md:items-center absolute md:w-auto top-0 invisible md:visible -translate-y-full md:-translate-y-0 left-0 md:top-auto md:left-auto duration-500 md:duration-0 w-full md:h-fit md:static">
+                <!-- <div class="flex justify-start p-2 sm:hidden">
+                    <i id="x" class="fa-solid fa-x text-blue-600"></i>
+                </div> -->
+                <ul class="flex p-5   justify-start gap-8 flex-col md:flex-row md:justify-evenly text-white">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="./AppFiles/profile.html">Profile</a></li>
+                    <li><a href="./AppFiles/dashboard.html">Dashboard</a></li>
+                    <!-- <li><a href="#">Services</a></li>
+                    <li><a href="#">Portfolio</a></li>
+                    <li><a href="#">Contact</a></li> -->
+                </ul>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="logInBut"
+                    class="bg-blue-600 rounded-2xl p-2 text-sm outline-none text-white font-semibold">Log In</button>
+                <button id="logOutBut"
+                    class="bg-blue-600 rounded-2xl p-2 text-sm outline-none text-white font-semibold">Log Out</button>
+                <div class="sm:hidden">
+                    <i id="bar" class="fa-solid fa-bars text-white"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="abc" class="p-2 pl-4 text-lg bg-blue-300 font-semibold">
+
+    </div>
+    <main id="blogContainer" class="container flex flex-col items-center space-y-8 mx-auto py-8 px-4 ">
+        <!-- <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Create a Post</h2> -->
+        <!-- Input field for post content -->
+        <!-- <div class="mb-4">
+                <label for="postTitle" class="block text-sm font-medium text-gray-700">Post Title:</label>
+                <input id="postTitle" class="w-full rounded-md p-2 border-gray-700 border-2">
+            </div>
+            <div class="mb-4">
+                <label for="postContent" class="block text-sm font-medium text-gray-700">Post Content:</label>
+                <textarea id="postContent"
+                    class="w-full rounded-md resize-none h-24 border-gray-700 border-2 outline-none p-2 "></textarea>
+            </div> -->
+        <!-- Add Post button -->
+        <!-- <button id="addBlogButton"
+                class="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                Add Post
+            </button> -->
+            <!-- <div class="bg-white p-8 rounded-lg shadow-md w-3/4"> -->
+                <!-- Rounded Image -->
+                <!-- <div class="flex mb-4 space-x-4">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Author" class="w-16 h-16 rounded-full">
+        
+                    <div class="flex flex-col  justify-between mb-4">
+                        <h2 class="text-2xl font-semibold ">Post Title</h2>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-gray-500">By</span>
+                            <span class="font-semibold">User Name</span>
+                            <span class="text-gray-500">Posted on 18th Aug 2023</span>
+                        </div>
+        
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">Post Content goes here. This is a sample blog post content.</p>
+        
+                <div class="flex space-x-2">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Delete</button>
+                </div>
+            </div> -->
+        <!-- </div> -->
+    </main>
+    <script type="module" src="index.mjs"></script>
+</body>
+
+</html>
