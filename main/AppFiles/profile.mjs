@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, updatePassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-auth.js";
-import { doc, updateDoc, getDoc, getFirestore } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-firestore.js";
+import { doc, updateDoc, getDoc, getDocs, getFirestore, collection } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-storage.js";
 const firebaseConfig = {
     apiKey: "AIzaSyDizRqFG9fzEbtNmhmkdsuQVZ9O1vQMAHY",
@@ -49,8 +49,7 @@ bar.addEventListener('click', () => {
 const newPass = document.getElementById('newPass');
 const confirmNewPass = document.getElementById('confirmNewPass');
 const changePassBut = document.getElementById('changePassBut');
-let user = document.getElementById('user');
-
+let userNam = document.getElementById('userNam')
 /////////////////////////userName Update////////////////////////
 let userName = async (userID) => {
     //    const userDoc = auth.currentUser.uid
@@ -60,7 +59,7 @@ let userName = async (userID) => {
     if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
 
-        user.innerHTML = `Welcome ! ${docSnap.data().firstName} ${docSnap.data().lastName}`;
+        userNam.innerHTML = `${docSnap.data().firstName} ${docSnap.data().lastName}`;
 
     } else {
         // docSnap.data() will be undefined in this case
@@ -69,35 +68,100 @@ let userName = async (userID) => {
 
 }
 //////////////Edit Work left But soon will be completed /////////////////////////////////
-let editUserNamPara = document.getElementById("editUserNamPara");
-let userInput = document.createElement("input");
+//let editUserNamPara = document.getElementById("editUserNamPara");
+let userPara = document.getElementById('userPara')
+let userInputFirstNam = document.getElementById('userInputFirstNam');
+userInputFirstNam.setAttribute('class', 'border ml-0 sm:ml-2 pl-2 p-1 hidden')
+userInputFirstNam.setAttribute("type", "text");
+userInputFirstNam.setAttribute('placeholder', 'Enter First Name')
+let userInputLastNam = document.getElementById('userInputLastNam');
+userInputLastNam.setAttribute('class', 'border pl-2 p-1 hidden')
+userInputLastNam.setAttribute('placeholder', 'Enter Last Name')
+userInputLastNam.setAttribute("type", "text");
+let userEditIcon = document.getElementById('editUserNamPara')
+const updateUserNam = document.getElementById('updateUserNam')
 let editUserNam = () => {
-    let userContainer = document.getElementById("userContainer");
-    user.classList.add('hidden');
-    userInput.addEventListener('keypress', userNameUpdated)
-    userInput.setAttribute("type", "text");
-    userContainer.insertBefore(userInput, editUserNamPara);
+    // let userContainer = document.getElementById("userContainer");
+    updateUserNam.classList.remove('hidden')
+    userInputFirstNam.classList.remove('hidden')
+    userInputLastNam.classList.remove('hidden')
+    // userPara.append(userInputFirstNam,userInputLastNam);
+    userNam.classList.add('hidden')
+    userEditIcon.setAttribute('class', 'hidden')
+    updateUserNam.addEventListener('click', userNameUpdatedAllDocs)
+    updateUserNam.addEventListener('click', userNameUpdated)
+
 
 }
+
+userEditIcon.addEventListener(`click`, editUserNam)
 
 let userNameUpdated = async (event) => {
 
-    if (event.key === 13) {
-        const name = userInput.value
-        let user = auth.currentUser.email
-        console.log(user)
-        const washingtonRef = doc(db, "userDetails", user);
+    const firstName = userInputFirstNam.value
+    const lastName = userInputLastNam.value
 
-        // Set the "capital" field of the city 'DC'
-        await updateDoc(washingtonRef, {
-            firstName: name
-        });
-        user.classList.remove('hidden');
-        event.target.classList.add('hidden');
+    try {
+        console.log('yahoooooo')
+        if (firstName.trim().length > 0 && lastName.trim().length > 0) {
+            console.log('yahoooooo')
+            let user = auth.currentUser.email
+            console.log(user)
+            const userDetailsRef = doc(db, "userDetails", user);
+
+            // Set the "capital" field of the city 'DC'
+            await updateDoc(userDetailsRef, {
+                firstName: firstName,
+                lastName: lastName
+            });
+            userNam.innerText = `${firstName} ${lastName}`
+
+            userInputFirstNam.classList.add('hidden')
+            userInputLastNam.classList.add('hidden')
+            userNam.classList.remove('hidden');
+            userEditIcon.classList.remove('hidden')
+            // event.target.classList.add('hidden');
+            updateUserNam.classList.add('hidden')
+
+        }
+    } catch (error) {
+        console.log(error)
     }
+
+
 }
 
-editUserNamPara.addEventListener(`click`, editUserNam)
+let userNameUpdatedAllDocs = async () => {
+
+    const userName = `${userInputFirstNam.value} ${userInputLastNam.value}`
+    console.log(userName)
+
+    if (userName.trim().length > 0) {
+        const querySnapshot = await getDocs(collection(db, "Blogs"));
+        const userEmail = auth.currentUser.email
+        console.log(userEmail)
+        querySnapshot.forEach(async (docs) => {
+
+            // doc.data() is never undefined for query doc snapshots
+
+
+            if (docs.data().userEmail === userEmail) {
+                console.log(docs.id, " => ", docs.data());
+                const blogsRef = doc(db, "Blogs", docs.id);
+
+                // Set the "capital" field of the city 'DC'
+                await updateDoc(blogsRef, {
+                    userName: userName,
+                });
+
+            }
+
+        });
+
+    }
+
+}
+
 
 let logInBut = document.getElementById('logInBut')
 
@@ -133,23 +197,23 @@ onAuthStateChanged(auth, (user) => {
             // // } else {
             // // At least one file has been selected
             // // alert("File selected: " + imgUpload.files[0].name);
-            setTimeout(()=>{
+            setTimeout(() => {
                 getDownloadURL(ref(storage, 'users/' + user.uid + '/profile.jpg'))
-                .then((url) => {
-                    // `url` is the download URL for 'images/stars.jpg
-                    // Or inserted into an <img> element
-                    // image.className = "h-11 w-12 sm:w-11 rounded-full";
-                    profImg.setAttribute('src', url);
-                    profNavImg.setAttribute('src', url);
-                    // .alt = "User Image";
-                })
-                .catch((error) => {
-                    // Handle any errors
-                    console.log(error)
-                });
-            },2000)
-            
-            
+                    .then((url) => {
+                        // `url` is the download URL for 'images/stars.jpg
+                        // Or inserted into an <img> element
+                        // image.className = "h-11 w-12 sm:w-11 rounded-full";
+                        profImg.setAttribute('src', url);
+                        profNavImg.setAttribute('src', url);
+                        // .alt = "User Image";
+                    })
+                    .catch((error) => {
+                        // Handle any errors
+                        console.log(error)
+                    });
+            }, 2000)
+
+
         })
         const profNavImg = document.getElementById('profImg')
         const profImg = document.getElementById('userProfImg')

@@ -92,6 +92,7 @@ let editPost = async (event) => {
     let prevTitle = event.target.parentNode.parentNode.firstChild.childNodes[1].childNodes[0].textContent
 
     let editButton = event.target
+    let updtButton = event.target.previousSibling
     console.log(prevTitle)
     console.log(editButton)
     console.log(titleContainer)
@@ -100,26 +101,28 @@ let editPost = async (event) => {
     console.log(prevParaText)
     console.log(insertParaTextAreaTag)
     console.log(parentDivOfParaText)
-    editButton.disabled = true
-    editButton.setAttribute('id', 'editBut')
+
+    // editButton.setAttribute('id', 'editBut')
     const docID = event.target.getAttribute(`ref`);
     console.log(docID)
 
     h1Tag.classList.add(`hidden`)
     paraContainer.classList.add(`hidden`)
     let contentTextArea = document.createElement('textarea')
-    contentTextArea.setAttribute('class', `border-2 border-black p-2  outline-none w-full mb-4`)
+    contentTextArea.setAttribute('class', `border-2 border-black p-2 h-40 resize-none outline-none w-full mb-4`)
     let inpComment = document.createElement(`input`)
     inpComment.setAttribute(`class`, `border-2 border-black p-2  outline-none w-full`)
     inpComment.value = prevTitle
     contentTextArea.value = prevParaText
-    contentTextArea.setAttribute(`ref`, docID)
-    inpComment.setAttribute(`ref`, docID)
-    inpComment.addEventListener(`keypress`, submitTitle)
-    contentTextArea.addEventListener('keypress', submitContent)
+    // contentTextArea.setAttribute(`ref`, docID)
+    // inpComment.setAttribute(`ref`, docID)
+    // inpComment.addEventListener(`keypress`, submitTitle)
+    // contentTextArea.addEventListener('keypress', submitContent)
     parentDivOfParaText.insertBefore(contentTextArea, insertParaTextAreaTag);
     // titleContainer.insertBefore(inpComment,divTag);
     titleContainer.insertBefore(inpComment, divTag);
+    editButton.classList.add('hidden')
+    updtButton.classList.remove('hidden')
     // const washingtonRef = doc(db, "threads", docID);
     // let user = auth.currentUser
     // console.log(user.uid)
@@ -130,71 +133,44 @@ let editPost = async (event) => {
 
 }
 
-let submitTitle = async (event) => {
-    let editBut = document.getElementById('editBut')
-    console.log(editBut)
-    if (event.keyCode === 13) {
+let updatedPost = async (event) => {
+    event.preventDefault()
+    let h1Tag = event.target.parentNode.parentNode.firstChild.childNodes[1].childNodes[0]
+    let paraContainer = event.target.parentNode.parentNode.childNodes[1]
+    const docID = event.target.getAttribute(`ref`);
+    console.log(docID)
+    let updatedText = event.target.parentNode.parentNode.childNodes[2]
+    console.log(updatedText)
+    let updatedTitle = event.target.parentNode.parentNode.firstChild.childNodes[1].childNodes[1]
+    console.log(updatedTitle)
 
-        console.log("Enter key pressed!");
-        //console.log(event.target.parentNode.parentNode.parentNode.childNodes[1].childNodes[1].childNodes[1])
-        let editBut = document.getElementById('editBut')
-        console.log(editBut)
-        //editBut.disabled = false
-        const docID = event.target.getAttribute(`ref`);
-        console.log(docID)
-        let user = auth.currentUser
-        let edittedTitle = event.target.value
+    // if (prevParaText != updatedText && prevTitle != updatedTitle)
+    //  {
+        console.log(h1Tag)
+        console.log(paraContainer)
+    //     console.log(upd)
         const washingtonRef = doc(db, "Blogs", docID);
         // Atomically add a new region to the "regions" array field.
         await updateDoc(washingtonRef, {
-            postTitle: edittedTitle
+            postTitle: updatedTitle.value,
+            postContent: updatedText.value
         });
-        let inpComment = event.target
-        inpComment.classList.add(`hidden`)
-        //let para = event.target.previousSibling
-        //para.classList.add(``)
-        //para.textContent = edittedComment
-        //para.classList.remove(`hidden`)
-        // console.log(para)
-        event.preventDefault();
-    }
-
-
+        let editBut = event.target.nextSibling
+        editBut.classList.remove('hidden')
+        h1Tag.classList.remove('hidden')
+        paraContainer.classList.remove('hidden')
+        updatedTitle.classList.add('hidden')
+        updatedText.classList.add('hidden')
+        event.target.classList.add('hidden')
+        
+   // }
 }
 
-let submitContent = async (event) => {
-    if (event.keyCode === 13) {
-
-        console.log("Enter key pressed!");
-        //console.log(event.target.parentNode.parentNode.parentNode.childNodes[1].childNodes[1].childNodes[1])
-        let editBut = document.getElementById('editBut')
-        console.log(editBut)
-        //editBut.disabled = false
-        const docID = event.target.getAttribute(`ref`);
-        console.log(docID)
-        let user = auth.currentUser
-        let edittedContent = event.target.value
-        const washingtonRef = doc(db, "Blogs", docID);
-        // Atomically add a new region to the "regions" array field.
-        await updateDoc(washingtonRef, {
-            postContent: edittedContent
-        });
-        let inpComment = event.target
-        inpComment.classList.add(`hidden`)
-        //let para = event.target.previousSibling
-        //para.classList.add(``)
-        //para.textContent = edittedComment
-        //para.classList.remove(`hidden`)
-        // console.log(para)
-        event.preventDefault();
-    }
-
-}
 
 let rendermyBlogs = (event) => {
 
     // let userEmail = 
-    const q = query(collection(db, "Blogs"));
+    const q = query(collection(db, "Blogs"), orderBy("timestamp", "desc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         let user = auth
         console.log(user.currentUser.email)
@@ -216,7 +192,6 @@ let rendermyBlogs = (event) => {
 
 
                 // Create the author image element
-                let userNavProfImg = document.getElementById('userNavProfImg')
                 const authorImage = document.createElement('img');
                 getDownloadURL(ref(storage, 'users/' + user.currentUser.uid + '/profile.jpg'))
                     .then((url) => {
@@ -224,7 +199,6 @@ let rendermyBlogs = (event) => {
                         // Or inserted into an <img> element
                         // image.className = "h-11 w-12 sm:w-11 rounded-full";
                         authorImage.src = url;
-                        userNavProfImg.src = url;
                         // .alt = "User Image";
                     })
                     .catch((error) => {
@@ -241,7 +215,7 @@ let rendermyBlogs = (event) => {
 
                 // Create the post title element
                 const postTitle = document.createElement('h2');
-                postTitle.className = 'text-2xl font-semibold text-center md:text-start break-all';
+                postTitle.className = 'text-2xl font-semibold text-center md:text-start break-words';
                 postTitle.textContent = `${doc.data().postTitle}`;
 
                 // Create the author information element
@@ -256,8 +230,10 @@ let rendermyBlogs = (event) => {
                 authorName.className = 'font-semibold  break-all';
                 authorName.textContent = `${doc.data().userName}`;
 
-                let dateinSec = doc.data().timestamp.seconds
-                let fullDate = new Date(dateinSec * 1000)
+                let dateinSec = doc.data().timestamp
+                const secDate = dateinSec.seconds * 1000
+                console.log(typeof dateinSec)
+                let fullDate = new Date(secDate)
                 console.log(fullDate)
                 // Step 3: Extract the components of the date(day , year and month)
                 const day = fullDate.getDate();
@@ -282,28 +258,36 @@ let rendermyBlogs = (event) => {
 
                 // Create the post content element
                 const postContent = document.createElement('p');
-                postContent.className = 'mb-4 break-all';
+                postContent.className = 'mb-4 break-words';
                 postContent.textContent = `${doc.data().postContent}`;
 
                 // Create the buttons div
                 const buttonsDiv = document.createElement('div');
                 //buttonsDiv.className = 'flex ';
 
+                //Create update button
+                const updt = document.createElement('button');
+                updt.setAttribute('ref', `${doc.id}`)
+                updt.addEventListener('click', updatedPost)
+                updt.className = 'bg-blue-500 hidden hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded-2xl';
+                updt.textContent = 'Update';
+
                 //Create the Edit button
                 const edit = document.createElement('button');
                 edit.setAttribute('ref', `${doc.id}`)
                 edit.addEventListener('click', editPost)
-                edit.className = 'bg-blue-500 hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded-2xl "';
+                edit.className = 'bg-blue-500 hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded-2xl';
                 edit.textContent = 'Edit';
 
                 //Create the Edit button
                 const del = document.createElement('button');
                 del.addEventListener('click', delBlog)
                 del.setAttribute('ref', `${doc.id}`)
-                del.className = 'bg-blue-500 hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded-2xl "';
+                del.className = 'bg-blue-500 hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded-2xl';
                 del.textContent = 'Delete';
 
                 buttonsDiv.setAttribute('class', 'flex justify-center md:justify-end space-x-4')
+                buttonsDiv.appendChild(updt);
                 buttonsDiv.appendChild(edit);
                 buttonsDiv.appendChild(del);
 
@@ -351,7 +335,20 @@ addBlogButton.addEventListener('click', addBlog)
 
 const CheckingUser = (user) => {
     if (user) {
+        let userNavProfImg = document.getElementById('userNavProfImg')
 
+        getDownloadURL(ref(storage, 'users/' + user.uid + '/profile.jpg'))
+            .then((url) => {
+                // `url` is the download URL for 'images/stars.jpg
+                // Or inserted into an <img> element
+                // image.className = "h-11 w-12 sm:w-11 rounded-full";
+                userNavProfImg.src = url;
+                // .alt = "User Image";
+            })
+            .catch((error) => {
+                // Handle any errors
+                console.log(error)
+            });
         console.log('User is logged in:', user.email);
 
         // Perform the redirect here, e.g.:

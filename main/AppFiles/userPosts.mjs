@@ -44,17 +44,28 @@ let singleUserPosts = (event) => {
     const urlParams = new URLSearchParams(window.location.search);
     const userEmail = urlParams.get('value');
     // let userEmail = event.target.getAttribute('ref')
-    const q = query(collection(db, "Blogs"));
+    const q = query(collection(db, "Blogs"), orderBy("timestamp", "desc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         let blogContainer = document.getElementById('blogContainer')
         blogContainer.innerHTML = '';
         const backButDiv = document.createElement('div');
         backButDiv.setAttribute('class', 'flex justify-start w-full ');
         const backBut = document.createElement('button');
+        const imgContainer = document.createElement('div')
+        // <img class="h-11 w-12 sm:w-16 sm:h-16  rounded-full"
+        //                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+        //                 alt="Pfp not found" id="userProfImg">
+        const img = document.createElement('img')
+        img.setAttribute('class',' sm:w-56 sm:h-56 rounded-lg')
+        const heading = document.createElement('h1')
+        heading.setAttribute('class','font-semibold text-lg')
+        imgContainer.append(img,heading)
+        imgContainer.setAttribute('class','flex flex-col pt-4 items-center w-full')
         backBut.addEventListener('click', () => {
             location.href = '../index.html'
         })
-        backButDiv.appendChild(backBut);
+        backButDiv.setAttribute('class','flex flex-col items-start w-full')
+        backButDiv.append(imgContainer,backBut);
         backBut.innerText = "Go Back"
         backBut.className = 'text-blue-500 text-left font-semibold py-2 hover:text-blue-600';
         blogContainer.appendChild(backButDiv)
@@ -65,6 +76,8 @@ let singleUserPosts = (event) => {
             if (userEmail === `${doc.data().userEmail}`) {
                 // Create a div element with the specified classes
                 // Create the main container div
+
+                heading.innerText = `${doc.data().userName}`
                 const container = document.createElement('div');
                 container.className = 'bg-white p-8 bg-blue-300 rounded-lg shadow-lg w-full ';
 
@@ -80,6 +93,7 @@ let singleUserPosts = (event) => {
                         // Or inserted into an <img> element
                         // image.className = "h-11 w-12 sm:w-11 rounded-full";
                         authorImage.src = url;
+                        img.setAttribute('src',`${url}`)
                         // .alt = "User Image";
                     })
                     .catch((error) => {
@@ -136,7 +150,7 @@ let singleUserPosts = (event) => {
 
                 // Create the post content element
                 const postContent = document.createElement('p');
-                postContent.className = 'mb-4 break-all';
+                postContent.className = 'mb-4 break-words';
                 postContent.textContent = `${doc.data().postContent}`;
 
                 // Create the buttons div

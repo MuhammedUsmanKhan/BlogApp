@@ -49,13 +49,12 @@
             <!-- Input field for post content -->
             <div class="mb-4">
                 <label for="postTitle" class="block text-sm font-medium text-gray-700">Post Title:</label>
-                <input id="postTitle" pattern=".{5,50}" title="atleast 5 characters" required
-                    class="w-full rounded-md p-2 border-gray-700 border-2">
+                <input id="postTitle" name="postTitle" pattern=".{5,}" title="atleast 5 characters" 
+                    class="w-full rounded-md p-2 border-gray-700 border-2" required>
             </div>
             <div class="mb-4">
                 <label for="postContent" class="block text-sm font-medium text-gray-700">Post Content:</label>
-                <textarea id="postContent" required maxlength="3000" minlength="100" title="atleast 100 characters"
-                    class="w-full rounded-md resize-none h-24 border-gray-700 border-2 outline-none p-2 "></textarea>
+                <textarea id="postContent" name="postContent" minlength="100" title="atleast 100 characters"  class="w-full rounded-md resize-none h-24 border-gray-700 border-2 outline-none p-2 " required></textarea>
             </div>
             <!-- Add Post button -->
             <button id="addBlogButton"

@@ -47,16 +47,17 @@
         <div class="container mx-auto p-8">
             <div class="bg-white rounded shadow p-8">
                 <div class="flex flex-col space-y-2 items-center">
-                    <img class="h-11 w-12 sm:w-16 sm:h-16  rounded-full"
+                    <img class="h-16 w-16 sm:w-20 sm:h-20  rounded-full"
                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                         alt="Pfp not found" id="userProfImg">
                         <input type="file" name="" id="upload" hidden>
-                        <label for="upload" class="cursor-pointer font-semibold">Click here to Upload Profile Pic</label>
+                        <label for="upload" class="cursor-pointer text-center font-semibold">Click here to Upload Profile Pic</label>
                 </div>
-                <h1 class="text-2xl font-bold text-center mb-4">User Profile</h1>
-                <div id="userContainer" class="flex justify-center space-x-2">
-                    <p id="user" class="text-center text-gray-600 mb-8">Welcome, John Doe! </p>
+                <h1 class="text-2xl font-bold text-center mb-2">User Profile</h1>
+                <div id="userContainer" class="flex flex-col items-center mb-4 sm:mb-0 sm:flex-row sm:justify-center sm:items-start sm:space-x-2">
+                    <p id="userPara" class="text-center  break-words text-gray-600 mb-1 sm:mb-8 space-x-2">Welcome ! ,<input id="userInputFirstNam" type="text"><input id="userInputLastNam" type="text"><span id="userNam">John Doe!</span> </p>
                     <span id="editUserNamPara"><i class="fa-sharp fa-solid fa-pen-to-square"></i></span>
+                    <span id="updateUserNam" class="mt-1 hidden"><i class="fa-solid fa-arrow-up fa-md"></i></span>
                 </div>
                 <div id="changePasswordForm" class="space-y-4">
                     <div class="flex flex-col space-y-2">

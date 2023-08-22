@@ -39,7 +39,7 @@ bar.addEventListener('click', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const q = query(collection(db, "Blogs"));
+  const q = query(collection(db, "Blogs"), orderBy("timestamp", "desc"));
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     let user = auth
     //console.log(user.currentUser.email)
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Create the post title element
         const postTitle = document.createElement('h2');
-        postTitle.className = 'text-2xl font-semibold text-center md:text-start break-all';
+        postTitle.className = 'text-2xl font-semibold text-center md:text-start break-words';
         postTitle.textContent = `${doc.data().postTitle}`;
 
         // Create the author information element
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Create the post content element
         const postContent = document.createElement('p');
-        postContent.className = 'mb-4 break-all';
+        postContent.className = 'mb-4 break-words';
         postContent.textContent = `${doc.data().postContent}`;
 
         // Create the buttons div
